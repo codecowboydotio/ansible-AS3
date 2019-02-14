@@ -1,0 +1,53 @@
+- hosts: "{{ target_hosts | default('localhost') }}"
+  gather_facts: false
+
+  vars:
+   bigip_server: 10.1.1.245
+   bigip_user: admin
+   bigip_password: admin
+   bigip_pool: manual-pool
+   bigip_vip: manual-vip
+
+  tasks: 
+  - name: Create pool
+    bigip_pool:
+      server: "{{ bigip_server }}"
+      user: "{{ bigip_user }}"
+      password: "{{ bigip_password }}"
+      state: present
+      name: "{{ bigip_pool }}"
+      partition: Common
+      lb_method: round-robin
+      validate_certs: no
+    delegate_to: localhost
+  
+  - name: Add pool member
+    bigip_pool_member:
+      server: "{{ bigip_server }}"
+      user: "{{ bigip_user }}"
+      password: "{{ bigip_password }}"
+      state: present
+      pool: "{{ bigip_pool }}"
+      partition: Common
+      host: 1.2.3.4
+      port: 80
+      validate_certs: no
+    delegate_to: localhost
+
+  - name: Add virtual server
+    bigip_virtual_server:
+      server: "{{ bigip_server }}"
+      user: "{{ bigip_user }}"
+      password: "{{ bigip_password }}"
+      state: present
+      partition: Common
+      name: "{{ bigip_vip }}"
+      destination: 10.10.10.10
+      port: 443
+      pool: "{{ bigip_pool }}"
+      snat: Automap
+      description: Manual Virtual Server
+      profiles:
+        - http
+      validate_certs: no
+    delegate_to: localhost

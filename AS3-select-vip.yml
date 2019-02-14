@@ -1,0 +1,35 @@
+- name: Get facts and set VIP address within AS3 jinja2 template
+  hosts: "{{ target_hosts | default('localhost') }}"
+  gather_facts: True
+  #connection: local
+
+  tasks:
+  - name: get bigip facts
+    bigip_device_facts:
+      gather_subset:
+        - interfaces
+        - vlans
+      provider:
+        server: 54.206.39.149
+        user: admin
+        password: admin
+        server_port: 8443
+        validate_certs: no
+    delegate_to: localhost
+  - name: get instance facts
+    ec2_instance_facts:
+      aws_access_key: "{{ lookup('env','AWS_ACCESS_KEY_ID') }}"
+      aws_secret_key: "{{ lookup('env','AWS_SECRET_ACCESS_KEY') }}"
+      region: "{{ aws_region }}"
+      filters:
+        "tag:Name": bigip
+    register: instance_facts
+  - name: get interface address
+    set_fact:
+      vip_address: "{{ instance_facts.instances[0].network_interfaces[0].private_ip_addresses[0].private_ip_address }}"
+  - name: dump facts
+    debug: var=vip_address
+  - name: Update json blob
+    template:
+      src: AS3-vip.j2
+      dest: AS3-vip.json

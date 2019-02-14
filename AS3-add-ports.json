@@ -1,0 +1,7 @@
+[
+  {
+    "op": "add",
+    "path": "/Sample_sec_05/fwFastL4/fwAllowedPortList/ports/-",
+    "value": "4644"
+  }
+]

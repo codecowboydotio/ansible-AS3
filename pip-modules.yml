@@ -1,0 +1,10 @@
+- hosts: "{{ target_hosts | default('localhost') }}"
+  gather_facts: false
+
+  vars:
+   bigip_vip: manual-vip
+
+  tasks: 
+  - name: Install F5 services
+    pip: 
+      name: f5-sdk

@@ -1,0 +1,18 @@
+- hosts: "{{ target_hosts | default('localhost') }}"
+  gather_facts: false
+
+  vars:
+   as3_spec: "{{ lookup('file', '{{ file_name }}') | from_json }}"
+
+  tasks: 
+  - name: URI POST Tenant
+    uri:
+       url: "https://{{ inventory_hostname }}:{{ bigip_port }}/mgmt/shared/appsvcs/declare"
+       method: "{{ HTTP_METHOD }}"
+       user: "admin"
+       password: "admin"
+       force_basic_auth: yes
+       validate_certs: no
+       body: "{{ as3_spec }}"
+       body_format: json
+    delegate_to: localhost
