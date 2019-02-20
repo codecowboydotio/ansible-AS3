@@ -33,6 +33,10 @@
     delegate_to: localhost
   - name: dump facts
     debug: var=vip_address
+  - name: Set facts for J2
+    set_fact:
+      aws_access_key: "{{ lookup('env','AWS_ACCESS_KEY_ID') }}"
+      aws_secret_key: "{{ lookup('env','AWS_SECRET_ACCESS_KEY') }}"
   - name: Update json blob
     template:
       src: AS3-vip.j2
