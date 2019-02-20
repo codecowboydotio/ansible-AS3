@@ -37,3 +37,4 @@
     template:
       src: AS3-vip.j2
       dest: AS3-vip.json
+    delegate_to: localhost
