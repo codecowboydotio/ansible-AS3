@@ -28,7 +28,8 @@
     delegate_to: localhost
   - name: get interface address
     set_fact:
-      vip_address: "{{ instance_facts.instances[0].network_interfaces[0].private_ip_addresses[0].private_ip_address }}"
+#      vip_address: "{{ instance_facts.instances[0].network_interfaces[0].private_ip_addresses[0].private_ip_address }}"
+       vip_address: "{{ ec2_private_ip_address }}"
     delegate_to: localhost
   - name: dump facts
     debug: var=vip_address
