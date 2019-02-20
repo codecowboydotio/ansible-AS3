@@ -27,6 +27,7 @@
 #      filters:
 #        "tag:Name": bigip
     register: instance_facts
+    delegate_to: localhost
   - name: get interface address
     set_fact:
       vip_address: "{{ instance_facts.instances[0].network_interfaces[0].private_ip_addresses[0].private_ip_address }}"
