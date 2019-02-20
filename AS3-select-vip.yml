@@ -1,10 +1,10 @@
 - name: Get facts and set VIP address within AS3 jinja2 template
   hosts: "{{ target_hosts | default('localhost') }}"
   gather_facts: True
-  connection: local
+#  connection: local
 
   vars:
-    aws_region: ap-southeast-2
+#    aws_region: ap-southeast-2
 
   tasks:
   - name: get bigip facts
@@ -24,8 +24,8 @@
       aws_access_key: "{{ lookup('env','AWS_ACCESS_KEY_ID') }}"
       aws_secret_key: "{{ lookup('env','AWS_SECRET_ACCESS_KEY') }}"
       region: "{{ aws_region }}"
-      filters:
-        "tag:Name": bigip
+#      filters:
+#        "tag:Name": bigip
     register: instance_facts
   - name: get interface address
     set_fact:
