@@ -1,7 +1,10 @@
 - name: Get facts and set VIP address within AS3 jinja2 template
   hosts: "{{ target_hosts | default('localhost') }}"
   gather_facts: True
-  #connection: local
+  connection: local
+
+  vars:
+    aws_region: ap-southeast-2
 
   tasks:
   - name: get bigip facts
@@ -10,7 +13,7 @@
         - interfaces
         - vlans
       provider:
-        server: 54.206.39.149
+        server: "{{ inventory_hostname }}"
         user: admin
         password: admin
         server_port: 8443
