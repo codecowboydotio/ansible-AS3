@@ -1,6 +1,6 @@
 - name: Get facts and set VIP address within AS3 jinja2 template
   hosts: "{{ target_hosts | default('localhost') }}"
-  gather_facts: True
+  gather_facts: false
 #  connection: local
 
   vars:
