@@ -21,10 +21,7 @@
                 ],
                 "virtualPort": 80,
                 "policyFirewallEnforced": {"use": "firewallPolicy"},
-                "pool": "web_pool",
-                "policyWAF": {
-                  "bigip": "/Common/test-policy"
-                }
+                "pool": "web_pool"
             },
             "web_pool": {
               "class": "Pool",
